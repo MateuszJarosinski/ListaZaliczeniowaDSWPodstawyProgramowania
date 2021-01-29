@@ -1,5 +1,8 @@
 import calendar
-
+"""
+Rok przestępny to taki którego numeracja podzielna jest przez 4, jednocześnie niepodzielna przez 100,
+lub podzielna przez 400. Muszę go uwzględnić ze względnu na ilośc dni w lutym
+"""
 def isLapYear(year):
     if year%400 == 0:
         lapYear = True
@@ -11,7 +14,13 @@ def isLapYear(year):
         lapYear = False
 
     return lapYear
-
+"""
+Obliczając następny dzień od wskazanej daty muszę uwzględnić:
+- jeżeli podany dzień jest ostatnim dniem miesiąca to nowy dzień jest pierwszym dniem następnego miesiąca
+  , trzeba to uwzględnić w zakeżności od ilości dni w miesiącu (luty(przestępny czy nie, miesiące o 30 dniach i 31 dniach)
+- jeżeli podana data to 31 grudnia to nowa data będzie 1 stycznia następnego roku
+- reszta dat obliczan jest poprzez dodanie jednego dnia
+"""
 def nextDay(day, month, year):
     next_day = day + 1
     lapYear = isLapYear(year)
@@ -55,7 +64,13 @@ def nextDay(day, month, year):
         else:
             day+=1
             return day, month, year
-
+"""
+Obliczając poprzedni dzień muszę uwzględnić:
+- jeżeli jest to 1 stycznia to nową datąjest 31 grudnia poprzedniego roku
+- jeżeli jest to 1 marca to dniem poprzednim jest 28/29 lutego w zależności czy jest to rok przestępny
+- jeżeli jest to 1 dziń pozostałych miesięcy, muszę uwzględnic ile dni miał miesiąc poprzedni
+- reszta dat obliczana jest poprzez odjęcie jednego dnia
+"""
 def previousDay(day, month, year):
     lapYear = isLapYear(year)
     if day == 1:
@@ -84,9 +99,10 @@ def previousDay(day, month, year):
     else:
         day -= 1
         return day, month, year
-
-# https://dateutil.readthedocs.io/en/stable/_modules/dateutil/easter.html
-
+"""
+Inspirowałem się tym wzorem chcąc obliczyć Wielkanoc dla kalendarza gregoriańskiego: 
+https://dateutil.readthedocs.io/en/stable/_modules/dateutil/easter.html
+"""
 def easter(year):
 
     # g - Golden year - 1
@@ -112,7 +128,9 @@ def easter(year):
     day = 1 + (p + 27 + (p + 6)//40) % 31
     month = 3 + (p + 26)//30
     return day, month , year
-
+"""
+Obliczam dzień tygodnia moch urodzin dla podanego roku, korzystając z funkcji calendar
+"""
 def myBirthdayWeekday(year):
     weekDays=["Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"]
     weekday = calendar.weekday(year,7,24)
