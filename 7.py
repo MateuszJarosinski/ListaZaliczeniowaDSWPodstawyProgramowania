@@ -87,7 +87,7 @@ def previousDay(day, month, year):
 
 # https://dateutil.readthedocs.io/en/stable/_modules/dateutil/easter.html
 
-def easter(year): #method=3 - kalendarz gregoriański
+def easter(year):
 
     # g - Golden year - 1
     # c - Century
